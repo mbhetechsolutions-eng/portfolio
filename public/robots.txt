@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lungi-mbhetse-malungana.vercel.app/sitemap.xml

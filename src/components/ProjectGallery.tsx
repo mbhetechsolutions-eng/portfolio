@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import type { Project } from '../config/projects'
+import ProjectCoverImage from './ProjectCoverImage'
 
 interface ProjectGalleryProps {
   project: Project
@@ -26,10 +27,9 @@ export default function ProjectGallery({ project, isOpen, onClose }: ProjectGall
 
   useEffect(() => {
     if (isOpen) {
-      setCurrentIndex(0)
       closeButtonRef.current?.focus()
     }
-  }, [isOpen, project.id])
+  }, [isOpen])
 
   useEffect(() => {
     if (!isOpen) return
@@ -98,12 +98,11 @@ export default function ProjectGallery({ project, isOpen, onClose }: ProjectGall
         </header>
 
         <div className="relative flex min-h-[200px] flex-1 items-center justify-center bg-slate-100 sm:min-h-[400px]">
-          <img
+          <ProjectCoverImage
             key={current.src}
             src={current.src}
             alt={current.alt}
-            loading="lazy"
-            className="max-w-full max-h-[50vh] sm:max-h-[60vh] object-contain"
+            className="max-h-[50vh] max-w-full object-contain sm:max-h-[60vh]"
           />
 
           <button
@@ -139,11 +138,10 @@ export default function ProjectGallery({ project, isOpen, onClose }: ProjectGall
                 aria-label={`View screenshot ${index + 1}: ${screenshot.alt}`}
                 aria-current={index === currentIndex ? 'true' : undefined}
               >
-                <img
+                <ProjectCoverImage
                   src={screenshot.src}
                   alt=""
-                  loading="lazy"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </button>
             ))}

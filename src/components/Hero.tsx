@@ -1,6 +1,7 @@
 import { ArrowDown, Download, FolderOpen, Mail } from 'lucide-react'
 import { BackgroundLines } from '@/components/ui/background-lines'
 import { personalInfo } from '@/config/personal'
+import SocialLinks from './SocialLinks'
 
 export default function Hero() {
   return (
@@ -11,9 +12,12 @@ export default function Hero() {
       >
         <div className="section-container px-4 py-20 lg:py-28">
           {personalInfo.openToOpportunities && (
-            <div className="mb-8 inline-flex animate-fade-in items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3.5 py-1.5 text-sm text-slate-600 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true" />
-              Open to opportunities
+            <div className="mb-6 max-w-2xl space-y-3">
+              <div className="inline-flex animate-fade-in items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3.5 py-1.5 text-sm text-slate-600 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-500" aria-hidden="true" />
+                Open to opportunities
+              </div>
+              <p className="text-sm leading-relaxed text-slate-600">{personalInfo.availabilityMessage}</p>
             </div>
           )}
 
@@ -32,20 +36,22 @@ export default function Hero() {
             {personalInfo.heroIntro}
           </p>
 
+          <SocialLinks className="mt-8" />
+
           <div className="mt-10 flex flex-col flex-wrap gap-3 sm:flex-row">
-            <a href="#projects" className="btn-primary px-6 py-3 text-base">
+            <a href="#projects" className="btn-primary min-h-11 px-6 py-3 text-base">
               <FolderOpen size={18} aria-hidden="true" />
               View My Projects
             </a>
             <a
               href={personalInfo.cvPath}
               download={personalInfo.cvFilename}
-              className="btn-secondary px-6 py-3 text-base"
+              className="btn-secondary min-h-11 px-6 py-3 text-base"
             >
               <Download size={18} aria-hidden="true" />
               Download CV
             </a>
-            <a href="#contact" className="btn-secondary px-6 py-3 text-base">
+            <a href="#contact" className="btn-secondary min-h-11 px-6 py-3 text-base">
               <Mail size={18} aria-hidden="true" />
               Contact Me
             </a>
@@ -64,3 +70,4 @@ export default function Hero() {
     </section>
   )
 }
+

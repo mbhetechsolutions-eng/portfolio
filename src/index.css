@@ -19,6 +19,16 @@
     overflow-x: hidden;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .animate-fade-in {
+      animation: none;
+    }
+  }
+
   body {
     @apply bg-white text-slate-600 font-sans antialiased overflow-x-hidden;
   }
@@ -103,5 +113,17 @@
 
   .contact-autofill:-webkit-autofill {
     animation: contact-autofill-start 0.01ms;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }

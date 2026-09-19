@@ -44,7 +44,7 @@ export default function Education({ asPage = false }: EducationProps) {
 
                   {qualification.highlights && (
                     <div className="mt-6">
-                      <h4 className="label-muted mb-3">Strong Academic Results</h4>
+                      <h4 className="label-muted mb-3">Academic highlights</h4>
                       <ul className="grid gap-2 sm:grid-cols-2">
                         {qualification.highlights.map((result) => (
                           <li
@@ -57,15 +57,31 @@ export default function Education({ asPage = false }: EducationProps) {
                       </ul>
                     </div>
                   )}
+
+                  {qualification.modules && (
+                    <div className="mt-6">
+                      <h4 className="label-muted mb-3">Relevant modules</h4>
+                      <ul className="grid gap-2 sm:grid-cols-2">
+                        {qualification.modules.map((module) => (
+                          <li
+                            key={module}
+                            className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600"
+                          >
+                            {module}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             </article>
           ))}
         </div>
 
-        <Link to="/documents" className="btn-secondary mt-10 inline-flex">
+        <Link to="/documents" className="btn-secondary mt-10 inline-flex min-h-11">
           <FileText size={18} aria-hidden="true" />
-          View certificates and transcripts
+          Academic documents
         </Link>
       </div>
     </section>

@@ -6,12 +6,14 @@ export interface SkillGroup {
 export const skillGroups: SkillGroup[] = [
   {
     title: 'Programming Languages',
-    skills: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL', 'HTML5', 'CSS3'],
+    skills: ['JavaScript', 'TypeScript', 'Python', 'Java', 'SQL', 'C++'],
   },
   {
-    title: 'Front End',
+    title: 'Frontend',
     skills: [
       'React',
+      'HTML5',
+      'CSS3',
       'Vite',
       'Tailwind CSS',
       'React Router',
@@ -20,7 +22,7 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    title: 'Back End and Databases',
+    title: 'Backend and Databases',
     skills: ['Node.js', 'Express.js', 'Supabase', 'PostgreSQL', 'MongoDB', 'Firebase', 'REST APIs'],
   },
   {

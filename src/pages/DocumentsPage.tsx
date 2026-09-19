@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
-import { Download, ExternalLink, FileText } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import Navigation from '../components/Navigation'
 import Footer from '../components/Footer'
-import { documentUrl, portfolioDocuments } from '../config/documents'
+import { documentsRecruiterNotice, getPublicDocuments } from '../config/documents'
+import { personalInfo } from '../config/personal'
+
 export default function DocumentsPage() {
   useEffect(() => {
     document.title = 'Documents | Lungi Mbhetse Malungana'
@@ -10,6 +12,8 @@ export default function DocumentsPage() {
       document.title = 'Lungi Mbhetse Malungana | Software Engineer Portfolio'
     }
   }, [])
+
+  const publicDocuments = getPublicDocuments()
 
   return (
     <>
@@ -20,69 +24,37 @@ export default function DocumentsPage() {
             <h1 className="section-heading">
               Academic <span className="gradient-text">Documents</span>
             </h1>
-            <p className="section-subheading">
-              Certificates and transcripts supporting my software engineering studies and
-              qualifications. Open any document in a new tab or download a copy.
-            </p>
+            <p className="section-subheading">{documentsRecruiterNotice}</p>
           </header>
 
-          <ul className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3" aria-label="Document list">
-            {portfolioDocuments.map((doc) => {
-              const url = documentUrl(doc.filePath)
-              return (
-                <li key={doc.id}>
-                  <article className="surface-card flex h-full flex-col p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="icon-well flex-shrink-0">
-                        <FileText size={22} aria-hidden="true" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="label-muted">{doc.category}</p>
-                        <h2 className="mt-1 text-lg font-medium leading-snug text-slate-900">
-                          {doc.title}
-                        </h2>
-                      </div>
-                    </div>
+          <article className="surface-card mt-12 max-w-3xl p-6 sm:p-8">
+            <p className="text-sm leading-relaxed text-slate-600">
+              Certificates and transcripts may contain personal identifiers. For privacy, they are not
+              published on this website. Recruiters and hiring managers may request verified copies by
+              email.
+            </p>
+            <a href={personalInfo.emailHref} className="btn-primary mt-6 inline-flex min-h-11">
+              <Mail size={18} aria-hidden="true" />
+              Request documents by email
+            </a>
+          </article>
 
-                    <p className="mt-4 flex-1 text-sm leading-relaxed text-slate-600">
-                      {doc.description}
-                    </p>
-
-                    <div className="mt-6 flex flex-wrap gap-3">
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-soft"
-                      >
-                        <ExternalLink size={16} aria-hidden="true" />
-                        View PDF
-                      </a>
-                      <a
-                        href={url}
-                        download={doc.downloadFilename}
-                        className="btn-secondary px-4 py-2"
-                      >
-                        <Download size={16} aria-hidden="true" />
-                        Download
-                      </a>
-                    </div>
-                  </article>
-                </li>
-              )
-            })}
-          </ul>
+          {publicDocuments.length > 0 && (
+            <p className="mt-8 text-sm text-slate-500">
+              {publicDocuments.length} redacted document(s) available for public download.
+            </p>
+          )}
 
           <p className="mt-10 text-sm text-slate-500">
-            For my professional CV, use the{' '}
+            For my CV, use the{' '}
             <a href="/#home" className="text-slate-700 transition-colors hover:text-slate-900">
               Download CV
             </a>{' '}
-            button on the home page, or the{' '}
+            button on the home page or visit the{' '}
             <a href="/portfolio" className="text-slate-700 transition-colors hover:text-slate-900">
               complete portfolio page
-            </a>{' '}
-            for everything in one file.
+            </a>
+            .
           </p>
         </div>
       </main>

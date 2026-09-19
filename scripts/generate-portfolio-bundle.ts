@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -164,7 +163,12 @@ async function buildPortfolioBooklet(): Promise<Uint8Array> {
   page = doc.addPage([PAGE.width, PAGE.height])
   ctx = { doc, page, font, fontBold, y: PAGE.height - PAGE.margin }
   ctx = await drawHeading(ctx, 'About')
-  for (const paragraph of personalInfo.aboutParagraphs) {
+  ctx = await drawLines(ctx, [personalInfo.aboutParagraphs[0]], { gap: 13 })
+  ctx = await drawSpacer(ctx, 6)
+  ctx = await drawLines(ctx, ['Why Software Engineering'], { bold: true, gap: 12 })
+  ctx = await drawLines(ctx, [personalInfo.whySoftwareEngineering], { gap: 13 })
+  ctx = await drawSpacer(ctx, 6)
+  for (const paragraph of personalInfo.aboutParagraphs.slice(1)) {
     ctx = await drawLines(ctx, [paragraph], { gap: 13 })
     ctx = await drawSpacer(ctx, 6)
   }
@@ -250,12 +254,6 @@ async function main() {
     throw new Error(`CV not found at public${personalInfo.cvPath}. Add your CV PDF and run again.`)
   }
 
-  const alternateCvBytes = await loadPdfBytes(personalInfo.alternateCvPath)
-  const includeAlternateCv =
-    alternateCvBytes !== null &&
-    personalInfo.alternateCvPath !== personalInfo.cvPath &&
-    !Buffer.from(alternateCvBytes).equals(Buffer.from(cvBytes))
-
   const bookletBytes = await buildPortfolioBooklet()
   const merged = await PDFDocument.create()
 
@@ -267,10 +265,7 @@ async function main() {
   }
 
   console.log('Building complete portfolio PDF…')
-  await appendPdf(cvBytes, 'CV (PNet)')
-  if (includeAlternateCv && alternateCvBytes) {
-    await appendPdf(alternateCvBytes, 'CV (alternate)')
-  }
+  await appendPdf(cvBytes, 'CV')
   await appendPdf(bookletBytes, 'Portfolio summary (about, skills, projects)')
 
   for (const docEntry of portfolioDocuments) {
@@ -285,11 +280,8 @@ async function main() {
   console.log(`Pages: ${merged.getPageCount()}`)
   console.log(`\nContents order:`)
   console.log(`  1. ${personalInfo.cvFilename}`)
-  if (includeAlternateCv) console.log(`  2. ${personalInfo.alternateCvFilename}`)
-  console.log(`  ${includeAlternateCv ? 3 : 2}. Portfolio summary (generated)`)
-  portfolioDocuments.forEach((d, i) =>
-    console.log(`  ${i + (includeAlternateCv ? 4 : 3)}. ${d.title}`),
-  )
+  console.log(`  2. Portfolio summary (generated)`)
+  portfolioDocuments.forEach((d, i) => console.log(`  ${i + 3}. ${d.title}`))
 }
 
 main().catch((err) => {

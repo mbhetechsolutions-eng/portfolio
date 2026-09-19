@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Download, FileStack, LayoutList } from 'lucide-react'
 import { personalInfo } from '../config/personal'
+import { projects } from '../config/projects'
 
 const pdfUrl = encodeURI(personalInfo.completePortfolioPdfPath)
 
@@ -17,8 +18,8 @@ export default function PortfolioDownload() {
             Complete <span className="gradient-text">Portfolio</span>
           </h2>
           <p className="section-subheading">
-            View everything in one place on the web—CV, projects, skills, education, and
-            documents—or download the same content as a single PDF.
+            View everything in one place on the web—CV, all {projects.length} projects, skills, and
+            education—or download the bundled PDF (regenerate with npm run portfolio-pdf after updates).
           </p>
         </div>
 
@@ -30,16 +31,16 @@ export default function PortfolioDownload() {
             <div className="min-w-0 flex-1">
               <h3 className="text-lg font-medium text-slate-900">Portfolio document</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                The portfolio page and PDF include the same material: your CV, full project list,
-                academic certificates, and transcripts.
+                Includes {personalInfo.cvFilename}, project summaries, and academic PDFs in the offline
+                bundle. Academic documents on the website are available to recruiters on request.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link to="/portfolio" className="btn-primary px-6 py-3">
+                <Link to="/portfolio" className="btn-primary min-h-11 px-6 py-3">
                   <LayoutList size={18} aria-hidden="true" />
                   View portfolio page
                 </Link>
-                <a href={pdfUrl} download={personalInfo.completePortfolioPdfFilename} className="btn-secondary px-6 py-3">
+                <a href={pdfUrl} download={personalInfo.completePortfolioPdfFilename} className="btn-secondary min-h-11 px-6 py-3">
                   <Download size={18} aria-hidden="true" />
                   Download PDF
                 </a>

@@ -1,6 +1,7 @@
 import { useState, type AnimationEvent, type FormEvent } from 'react'
 import { Globe, Mail, MapPin, Phone, Send } from 'lucide-react'
 import { personalInfo } from '../config/personal'
+import SocialLinks from './SocialLinks'
 
 interface FormData {
   name: string
@@ -56,6 +57,7 @@ export default function Contact({ asPage = false }: ContactProps) {
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [statusMessage, setStatusMessage] = useState('')
+  const [honeypot, setHoneypot] = useState('')
 
   const web3formsKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY as string | undefined
 
@@ -75,6 +77,14 @@ export default function Contact({ asPage = false }: ContactProps) {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
+
+    if (honeypot.trim()) {
+      return
+    }
+
+    if (status === 'submitting') {
+      return
+    }
 
     const validationErrors = validateForm(form)
     if (Object.keys(validationErrors).length > 0) {
@@ -104,6 +114,7 @@ export default function Contact({ asPage = false }: ContactProps) {
           subject: form.subject.trim(),
           message: form.message.trim(),
           from_name: personalInfo.fullName,
+          botcheck: honeypot,
         }),
       })
 
@@ -171,6 +182,7 @@ export default function Contact({ asPage = false }: ContactProps) {
 
         <div className="mt-12 grid lg:grid-cols-5 gap-10">
           <div className="lg:col-span-2 space-y-4">
+            <SocialLinks />
             {contactDetails.map(({ icon: Icon, label, value, href }) => (
               <div
                 key={label}
@@ -201,12 +213,25 @@ export default function Contact({ asPage = false }: ContactProps) {
 
           <form
             onSubmit={handleSubmit}
+            method="post"
             noValidate
             autoComplete="on"
             name="contact"
             className="surface-card lg:col-span-3 space-y-5 p-6 sm:p-8"
             aria-label="Contact form"
           >
+            <div className="sr-only" aria-hidden="true">
+              <label htmlFor="contact-botcheck">Leave this field empty</label>
+              <input
+                id="contact-botcheck"
+                name="botcheck"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+              />
+            </div>
             <div className="grid sm:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="contact-name" className="block text-sm font-medium text-slate-700 mb-1.5">

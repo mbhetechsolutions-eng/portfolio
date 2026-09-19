@@ -1,10 +1,11 @@
-import { Download, ExternalLink, FileText, Mail, MapPin, Phone } from 'lucide-react'
-import { documentUrl, portfolioDocuments } from '../config/documents'
+import { Download, ExternalLink, Mail, MapPin, Phone } from 'lucide-react'
+import { documentsRecruiterNotice, getPublicDocuments } from '../config/documents'
 import { education } from '../config/education'
 import { personalInfo } from '../config/personal'
 import { projects } from '../config/projects'
 import { skillGroups } from '../config/skills'
 import ProjectCard from './ProjectCard'
+import SocialLinks from './SocialLinks'
 
 const completePdfUrl = encodeURI(personalInfo.completePortfolioPdfPath)
 
@@ -105,7 +106,12 @@ export default function CompletePortfolioView() {
             />
           </figure>
           <div className="space-y-5 text-slate-600 leading-relaxed">
-            {personalInfo.aboutParagraphs.map((paragraph, index) => (
+            <p>{personalInfo.aboutParagraphs[0]}</p>
+            <div>
+              <h3 className="text-base font-medium text-slate-900">Why Software Engineering</h3>
+              <p className="mt-2">{personalInfo.whySoftwareEngineering}</p>
+            </div>
+            {personalInfo.aboutParagraphs.slice(1).map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
           </div>
@@ -134,6 +140,18 @@ export default function CompletePortfolioView() {
                       className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600"
                     >
                       {result}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {qualification.modules && (
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {qualification.modules.map((module) => (
+                    <li
+                      key={module}
+                      className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600"
+                    >
+                      {module}
                     </li>
                   ))}
                 </ul>
@@ -184,41 +202,23 @@ export default function CompletePortfolioView() {
         <h2 className="section-heading text-2xl">
           Academic <span className="gradient-text">Documents</span>
         </h2>
-        <ul className="mt-8 space-y-4">
-          {portfolioDocuments.map((doc) => {
-            const url = documentUrl(doc.filePath)
-            return (
-              <li key={doc.id} className="surface-card p-5">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="flex gap-3">
-                    <div className="icon-well flex-shrink-0">
-                      <FileText size={20} aria-hidden="true" />
-                    </div>
-                    <div>
-                      <p className="label-muted">{doc.category}</p>
-                      <h3 className="mt-1 font-medium text-slate-900">{doc.title}</h3>
-                      <p className="mt-2 text-sm text-slate-600">{doc.description}</p>
-                    </div>
-                  </div>
-                  <div className="flex shrink-0 flex-wrap gap-2">
-                    <a href={url} target="_blank" rel="noopener noreferrer" className="btn-soft">
-                      View
-                    </a>
-                    <a href={url} download={doc.downloadFilename} className="btn-secondary px-4 py-2">
-                      Download
-                    </a>
-                  </div>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600">{documentsRecruiterNotice}</p>
+        <a href={personalInfo.emailHref} className="btn-secondary mt-6 inline-flex min-h-11">
+          Request documents by email
+        </a>
+        {getPublicDocuments().length > 0 && (
+          <p className="mt-4 text-sm text-slate-500">
+            {getPublicDocuments().length} redacted document(s) available for public download on the
+            Documents page.
+          </p>
+        )}
       </section>
 
       <section id="portfolio-contact" className="scroll-mt-24 py-12">
         <h2 className="section-heading text-2xl">
           Get in <span className="gradient-text">Touch</span>
         </h2>
+        <SocialLinks className="mt-6" />
         <ul className="mt-8 space-y-4 text-sm text-slate-600">
           <li className="flex items-center gap-3">
             <Mail size={18} className="text-slate-400" aria-hidden="true" />
