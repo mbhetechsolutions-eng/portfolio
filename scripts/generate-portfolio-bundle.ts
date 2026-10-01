@@ -14,7 +14,7 @@ const rootDir = path.join(__dirname, '..')
 const cvDir = path.join(rootDir, 'public', 'cv')
 
 const OUTPUT_FILENAME = 'Lungi_Malungana_Complete_Portfolio.pdf'
-const SITE_URL = 'https://portfolio-sand-delta-33.vercel.app'
+const SITE_URL = personalInfo.siteUrl
 
 const PAGE = {
   width: 595.28,

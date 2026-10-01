@@ -12,6 +12,7 @@ const projectFolders = [
   'shiluva',
   'afm-fol',
   'mectom',
+  'ndzhuti',
 ]
 
 const sourceExtensions = new Set(['.png', '.jpg', '.jpeg'])

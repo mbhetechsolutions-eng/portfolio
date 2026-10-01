@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { ExternalLink, Code2, Images } from 'lucide-react'
 
 import type { Project } from '../config/projects'
+import { isVercelHost } from '../config/project-vercel-demos'
 
 import ProjectGallery from './ProjectGallery'
 
@@ -25,6 +26,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
 
   const hasLiveUrl = project.liveUrl.trim().length > 0
+
+  const liveLinkLabel = hasLiveUrl && isVercelHost(project.liveUrl) ? 'View demo' : 'Live Site'
 
   const hasGithubUrl = project.githubUrl.trim().length > 0
 
@@ -180,7 +183,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
                 <ExternalLink size={16} aria-hidden="true" />
 
-                Live Site
+                {liveLinkLabel}
 
               </a>
 
